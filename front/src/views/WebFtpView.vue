@@ -19,7 +19,7 @@
 <script>
 // import FileList from '@/components/FileList.vue';
 
-import FileExplorer from '@/components/FileExplorer.vue';
+import FileExplorer from '@/components/FileExplorer/FileExplorer.vue';
 
 export default {
     name: "WebFtp",

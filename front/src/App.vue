@@ -1,7 +1,13 @@
 <template>
+  <header>
+
+  </header>
   <main>
     <AuthenticationView />
   </main>
+  <footer>
+
+  </footer>
 </template>
 
 <script>
