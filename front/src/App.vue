@@ -1,7 +1,13 @@
 <template>
+  <header>
+
+  </header>
   <main>
     <WebFtpViewVue />
   </main>
+  <footer>
+
+  </footer>
 </template>
 
 <script>
