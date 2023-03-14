@@ -1,28 +1,52 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-  <WebFtpViewVue/>
+  <main>
+    <AuthenticationView />
+  </main>
 </template>
 
 <script>
-import WebFtpViewVue from './views/WebFtpView.vue';
 
-
+import AuthenticationView from "@/views/AuthenticationView";
 export default {
   name: 'App',
   components: {
-    WebFtpViewVue
-}
+    AuthenticationView
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import "./assets/styles/form_style.scss";
+@import "assets/styles/reset.css";
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200&display=swap');
+
+main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Readex Pro', sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+button {
+  background: #B3145E;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: 'Readex Pro', sans-serif;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+button:hover {
+  cursor: pointer;
+}
+input {
+  font-family: 'Readex Pro', sans-serif;
+  font-weight: bold;
+  font-size: 1.125rem;
 }
 </style>
