@@ -1,16 +1,16 @@
 <template>
   <main>
-    <AuthenticationView />
+    <WebFtpViewVue />
   </main>
 </template>
 
 <script>
+import WebFtpViewVue from './views/WebFtpView.vue';
 
-import AuthenticationView from "@/views/AuthenticationView";
 export default {
   name: 'App',
   components: {
-    AuthenticationView
+    WebFtpViewVue
   }
 }
 </script>
