@@ -29,11 +29,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank()]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotNull()]
+    #[Asser\NotNull()]
     private ?string $pseudo = null;
 
     public function getId(): ?int
