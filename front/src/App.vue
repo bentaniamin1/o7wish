@@ -1,25 +1,17 @@
 <template>
   <header>
-
+    <nav>
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/authentication">Authentication</router-link>
+      ¨|
+      <router-link to="/webftp">Web FTP</router-link>
+    </nav>
   </header>
   <main>
-    <AuthenticationView />
+    <router-view/>
   </main>
-  <footer>
-
-  </footer>
 </template>
-
-<script>
-
-import AuthenticationView from "@/views/AuthenticationView";
-export default {
-  name: 'App',
-  components: {
-    AuthenticationView
-  }
-}
-</script>
 
 <style>
 @import "./assets/styles/form_style.scss";
@@ -29,9 +21,6 @@ export default {
 main {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
   font-family: 'Readex Pro', sans-serif;
   font-weight: bold;
@@ -47,9 +36,11 @@ button {
   font-weight: bold;
   font-size: 1.125rem;
 }
+
 button:hover {
   cursor: pointer;
 }
+
 input {
   font-family: 'Readex Pro', sans-serif;
   font-weight: bold;

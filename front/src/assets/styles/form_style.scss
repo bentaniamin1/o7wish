@@ -1,7 +1,15 @@
 .form_container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
 
   width: 435px;
   background: white;
@@ -11,7 +19,6 @@
 
   transition: 1s ease-out;
 }
-
 
 form {
   display: flex;

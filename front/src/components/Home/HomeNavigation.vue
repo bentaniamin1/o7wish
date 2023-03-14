@@ -18,7 +18,7 @@ export default {
 nav {
   font-size: 1.1rem;
   text-align: center;
-  border: 1px solid rgba(0, 0, 0, 5);;
+  border: 1px solid rgba(0, 0, 0, 5);
   border-radius: 10px;
   padding: 15px;
 

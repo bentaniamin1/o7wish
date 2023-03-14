@@ -1,17 +1,16 @@
 <template>
   <section class="form_container">
-    <div class="authentication_header">
-      <button @click="wentRegister = false">Connexion</button>
-      <button @click="wentRegister = true">Inscription</button>
+    <div class="form">
+      <div class="authentication_header">
+        <button @click="wentRegister = false">Connexion</button>
+        <button @click="wentRegister = true">Inscription</button>
+      </div>
+
+      <transition-group name="bounce">
+        <ConnectionForm v-if="!wentRegister"/>
+        <RegisterForm v-if="wentRegister"/>
+      </transition-group>
     </div>
-
-    <transition name="bounce">
-      <ConnectionForm v-if="!wentRegister"/>
-    </transition>
-
-    <transition name="bounce">
-      <RegisterForm v-if="wentRegister"/>
-    </transition>
   </section>
 </template>
 
@@ -50,15 +49,26 @@ button:hover {
 }
 
 
-.enter-form {
-  opacity: 0;
+.bounce-enter-active {
+  animation: slideleft 0.5s;
 }
 
-.enter-to {
-  opacity: 1;
+.bounce-leave-active {
+  transform: translateX(-100%);
 }
 
-.enter-active {
-  transition: opacity 1s ease-in-out;
+@keyframes slideleft {
+  0% {
+    opacity: 0;
+    transform: translatey(-100%);
+  }
+  50% {
+    transform: translatey(20%);
+  }
+  100% {
+    opacity: 100%;
+    transform: translatey(0);
+  }
 }
+
 </style>
