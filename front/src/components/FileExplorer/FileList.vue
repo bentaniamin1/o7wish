@@ -22,7 +22,18 @@
     data() {
       return {
         files: [
-        { name: 'folder1', type: 'folder' },
+        { 
+          name: 'folder1',
+          type: 'folder',
+          path: "/folder1",
+          children: [
+            {
+              name: "file2.txt",
+              type: "file",
+              path: "/folder1/file2.txt",
+            },
+          ],
+        },
         { name: 'file1.txt', type: 'file' },
         ],
       };
