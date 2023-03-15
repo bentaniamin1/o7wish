@@ -4,7 +4,9 @@
       <HomeNavigation/>
     </section>
     <section class="HomeStats">
-        <GeneralInformation />
+      <SiteManagement/>
+      <GeneralInformation/>
+      <SiteStatistics />
     </section>
   </section>
 </template>
@@ -12,10 +14,12 @@
 <script>
 import HomeNavigation from "@/components/Home/HomeNavigation";
 import GeneralInformation from "@/components/Home/GeneralInformation";
+import SiteManagement from "@/components/Home/SiteManagement";
+import SiteStatistics from "@/components/Home/SiteStatistics";
 
 export default {
   name: "HomeView",
-  components: {GeneralInformation, HomeNavigation}
+  components: {SiteStatistics, SiteManagement, GeneralInformation, HomeNavigation}
 }
 </script>
 
@@ -26,18 +30,24 @@ export default {
   width: 100%;
   height: 100vh;
 }
+
 .HomeNavigation {
   display: flex;
-  justify-content: center;
-  align-items: start;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
   overflow-y: auto;
   padding: 40px;
+  gap: 40px;
 }
+
 .HomeStats {
   display: flex;
-  justify-content: center;
-  align-items: start;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
   overflow-y: auto;
   padding: 40px;
+  gap: 40px;
 }
 </style>

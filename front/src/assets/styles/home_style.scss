@@ -23,3 +23,36 @@
   margin-top: 10px;
   opacity: 50%;
 }
+.home_sub_box h3{
+  margin-bottom: 10px;
+}
+.toggle_button_container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 7px;
+  width: 60px;
+  box-shadow: inset 0 1px 10px -1px rgba(0, 0, 0, 0.25);
+  border-radius: 100px;
+  transition: .2s ease-out;
+}
+.toggle_button_container-active {
+  background: #B3145E;
+}
+.toggle_button_container:hover {
+  cursor: pointer;
+}
+
+.toggle_button {
+  background: #B3145E;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
+  transition: .2s ease-out;
+}
+
+.toggle_button-active {
+  background: white;
+  transform: translateX(200%);
+}
