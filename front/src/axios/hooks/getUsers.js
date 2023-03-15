@@ -1,6 +1,6 @@
 import axiosInstance from '../Axios';
 
-export default function useRegister() {
+export default function getUsers() {
     return () => {
         return (
             axiosInstance ({
