@@ -133,6 +133,9 @@
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/twig/extra-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/twig/twig" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/psr/link" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/api-platform/core" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/willdurand/negotiation" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/nelmio/cors-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
