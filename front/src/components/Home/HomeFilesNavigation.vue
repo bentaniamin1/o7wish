@@ -11,7 +11,7 @@
 <script>
 import WebFTP from "@/assets/Picto/WebFTP";
 export default {
-  name: "HomeNavigation",
+  name: "HomeFilesNavigation",
   components: {WebFTP}
 }
 </script>

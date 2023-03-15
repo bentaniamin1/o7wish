@@ -1,7 +1,10 @@
 <template>
   <section class="home">
     <section class="HomeNavigation">
-      <HomeNavigation/>
+      <h1>Espace Technique</h1>
+      <HomeFilesNavigation />
+      <HomeDatabasesNavigation />
+      <HomeDomainNameNavigation />
     </section>
     <section class="HomeStats">
       <SiteManagement/>
@@ -12,14 +15,18 @@
 </template>
 
 <script>
-import HomeNavigation from "@/components/Home/HomeNavigation";
 import GeneralInformation from "@/components/Home/GeneralInformation";
 import SiteManagement from "@/components/Home/SiteManagement";
 import SiteStatistics from "@/components/Home/SiteStatistics";
+import HomeDatabasesNavigation from "@/components/Home/HomeDatabasesNavigation";
+import HomeFilesNavigation from "@/components/Home/HomeFilesNavigation";
+import HomeDomainNameNavigation from "@/components/Home/HomeDomainNameNavigation";
 
 export default {
   name: "HomeView",
-  components: {SiteStatistics, SiteManagement, GeneralInformation, HomeNavigation}
+  components: {
+    HomeDomainNameNavigation,
+    HomeFilesNavigation, HomeDatabasesNavigation, SiteStatistics, SiteManagement, GeneralInformation}
 }
 </script>
 

@@ -1,16 +1,16 @@
 <template>
   <header>
-    <nav>
-      <router-link to="/">Home</router-link>
-      |
-      <router-link to="/authentification">Authentification</router-link>
-      |
-      <router-link to="/ftp">Ftp Form</router-link>
-      |
-      <router-link to="/sous-domaine">Sous-domain</router-link>
-      |
-      <router-link to="/webftp">Web FTP</router-link>
-    </nav>
+<!--    <nav>-->
+<!--      <router-link to="/">Home</router-link>-->
+<!--      |-->
+<!--      <router-link to="/authentification">Authentification</router-link>-->
+<!--      |-->
+<!--      <router-link to="/ftp">Ftp Form</router-link>-->
+<!--      |-->
+<!--      <router-link to="/sous-domaine">Sous-domain</router-link>-->
+<!--      |-->
+<!--      <router-link to="/webftp">Web FTP</router-link>-->
+<!--    </nav>-->
   </header>
   <main>
     <router-view/>

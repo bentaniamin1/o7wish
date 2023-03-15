@@ -4,6 +4,7 @@ import AuthenticationView from "@/views/AuthenticationView";
 import WebFtpView from "@/views/WebFtpView";
 import FtpView from "@/views/FtpView";
 import SubDomainsView from "@/views/SubDomainsView";
+import DomainsView from "@/views/DomainsView";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/sous-domaine',
     name: 'sous-domaine',
     component: SubDomainsView
+  },
+  {
+    path: '/domaine',
+    name: 'domaine',
+    component: DomainsView
   },
 ]
 
