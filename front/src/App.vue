@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import useRegister from "@/axios/hook/useRegister";
+import getUsers from "@/axios/hooks/getUsers";
 
-const register = useRegister()
+const getAllUsers = getUsers()
 
 export default {
   name: "App",
@@ -33,8 +33,9 @@ export default {
   },
 
   async mounted() {
-    register()
-    .then((res) => (this.dataList = res[0].pseudo))
+    getAllUsers()
+    .then((res) => (this.dataList = res))
+    .then((res) =>  (console.log(res)))
 
 
   }
