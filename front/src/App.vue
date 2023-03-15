@@ -1,21 +1,44 @@
 <template>
   <header>
-<!--    <nav>-->
-<!--      <router-link to="/">Home</router-link>-->
-<!--      |-->
-<!--      <router-link to="/authentification">Authentification</router-link>-->
-<!--      |-->
-<!--      <router-link to="/ftp">Ftp Form</router-link>-->
-<!--      |-->
-<!--      <router-link to="/sous-domaine">Sous-domain</router-link>-->
-<!--      |-->
-<!--      <router-link to="/webftp">Web FTP</router-link>-->
-<!--    </nav>-->
+    <nav>
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/authentification">Authentification</router-link>
+      |
+      <router-link to="/ftp">Ftp Form</router-link>
+      |
+      <router-link to="/sous-domaine">Sous-domain</router-link>
+      |
+      <router-link to="/webftp">Web FTP</router-link>
+    </nav>
   </header>
+  {{dataList}}
   <main>
     <router-view/>
   </main>
 </template>
+
+<script>
+import useRegister from "@/axios/hook/useRegister";
+
+const register = useRegister()
+
+export default {
+  name: "App",
+  data: () => {
+    let dataList;
+    return {
+      dataList,
+    }
+  },
+
+  async mounted() {
+    register()
+    .then((res) => (this.dataList = res))
+  }
+}
+
+</script>
 
 <style>
 @import "assets/styles/reset.css";
