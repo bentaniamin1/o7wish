@@ -3,8 +3,12 @@
     <nav>
       <router-link to="/">Home</router-link>
       |
-      <router-link to="/authentication">Authentication</router-link>
-      ¨|
+      <router-link to="/authentification">Authentification</router-link>
+      |
+      <router-link to="/ftp">Ftp Form</router-link>
+      |
+      <router-link to="/sous-domaine">Sous-domain</router-link>
+      |
       <router-link to="/webftp">Web FTP</router-link>
     </nav>
   </header>
@@ -14,17 +18,24 @@
 </template>
 
 <style>
-@import "./assets/styles/form_style.scss";
 @import "assets/styles/reset.css";
+@import "./assets/styles/form_style.scss";
+@import "./assets/styles/table_style.scss";
+@import "./assets/styles/home_style.scss";
 @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200&display=swap');
 
 main {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   font-family: 'Readex Pro', sans-serif;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
+}
+h1 {
+  font-family: 'Readex Pro', sans-serif;
+  font-weight: bolder;
+  font-size: 1.875rem;
+  color: black;
+  margin-bottom: 10px;
 }
 
 button {
@@ -41,7 +52,7 @@ button:hover {
   cursor: pointer;
 }
 
-input {
+input, select {
   font-family: 'Readex Pro', sans-serif;
   font-weight: bold;
   font-size: 1.125rem;

@@ -1,8 +1,9 @@
 .form_container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  width: 100%;
 }
 
 .form {
@@ -33,18 +34,20 @@ form {
 .form_label_groupe {
   margin-top: 40px;
 }
-input {
+input, select {
   border: none;
   background-color: white;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   padding: 10px;
   width: 100%;
-
 }
-input:active {
+input {
+  width: 95.5%;
+}
+input:active, select:active {
   border: none;
 }
-input:focus {
+input:focus, select:active  {
   border: none;
 }

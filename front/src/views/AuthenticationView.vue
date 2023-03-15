@@ -5,7 +5,6 @@
         <button @click="wentRegister = false">Connexion</button>
         <button @click="wentRegister = true">Inscription</button>
       </div>
-
       <transition-group name="bounce">
         <ConnectionForm v-if="!wentRegister"/>
         <RegisterForm v-if="wentRegister"/>

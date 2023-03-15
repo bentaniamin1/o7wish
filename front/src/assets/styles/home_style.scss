@@ -1,0 +1,25 @@
+.home_box {
+  width: 80%;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.5);
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.link_sub_box {
+  display: flex;
+  gap: 10px;
+  justify-content: start;
+  align-items: center;
+  color: #B3145E;
+  font-weight: bolder;
+  margin-top: 30px;
+}
+
+.home_sub_box {
+  margin-top: 30px;
+}
+
+.home_sub_box p {
+  margin-top: 10px;
+  opacity: 50%;
+}
