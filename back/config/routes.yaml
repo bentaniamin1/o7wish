@@ -3,3 +3,9 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+services:
+    resource:
+        path: ../src/Service/
+        namespace: App\Service
+    type: attribute
