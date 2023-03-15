@@ -1,10 +1,11 @@
 <template>
   <form action="" method="get" class="">
     <div class="form_label_groupe">
-      <input type="text" name="name" id="name" placeholder="Votre nom" required>
+      <input type="email" name="email" id="email" v-model="this.email" placeholder="Votre email" required>
     </div>
     <div class="form_label_groupe">
-      <input type="password" name="password" id="password" placeholder="Votre mot de passe" required>
+      <input type="password" name="password" id="password" v-model="this.password" placeholder="Votre mot de passe"
+             required>
     </div>
     <div class="form_label_groupe">
       <button type="submit" value="">Connexion</button>
@@ -13,9 +14,20 @@
 </template>
 
 <script>
+
 export default {
-  name: "ConnectionForm"
+  name: "ConnectionForm",
+  data: () => {
+    return {
+      pseudo: '',
+      email: '',
+      password: '',
+      error: false,
+      success: false
+    }
+  }
 }
+
 </script>
 
 <style scoped>

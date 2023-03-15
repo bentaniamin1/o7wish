@@ -1,11 +1,11 @@
 import axiosInstance from '../Axios';
 
 export default function getUsers() {
-    return () => {
+    return (data) => {
         return (
             axiosInstance
-                .get('/api/users')
-                .then((res) => res.data["hydra:member"])
+                .post('/api/users', data)
+                .then((res) => res.data)
                 .catch((error) => console.log(error))
         );
     };

@@ -12,33 +12,19 @@
       <router-link to="/webftp">Web FTP</router-link>
     </nav>
   </header>
-  {{dataList}}
   <main>
     <router-view/>
   </main>
 </template>
 
 <script>
-import getUsers from "@/axios/hooks/getUsers";
-
-const getAllUsers = getUsers()
 
 export default {
   name: "App",
   data: () => {
-    let dataList;
     return {
-      dataList,
     }
   },
-
-  async mounted() {
-    getAllUsers()
-    .then((res) => (this.dataList = res))
-    .then((res) =>  (console.log(res)))
-
-
-  }
 }
 
 </script>

@@ -1,15 +1,15 @@
 <template>
   <section class="home">
     <section class="HomeNavigation">
-      <h1>Espace Technique</h1>
-      <HomeFilesNavigation />
-      <HomeDatabasesNavigation />
-      <HomeDomainNameNavigation />
+      <h1>Espace Technique {{ this.user.pseudo }}</h1>
+      <HomeFilesNavigation/>
+      <HomeDatabasesNavigation/>
+      <HomeDomainNameNavigation/>
     </section>
     <section class="HomeStats">
       <SiteManagement/>
       <GeneralInformation/>
-      <SiteStatistics />
+      <SiteStatistics/>
     </section>
   </section>
 </template>
@@ -26,7 +26,22 @@ export default {
   name: "HomeView",
   components: {
     HomeDomainNameNavigation,
-    HomeFilesNavigation, HomeDatabasesNavigation, SiteStatistics, SiteManagement, GeneralInformation}
+    HomeFilesNavigation, HomeDatabasesNavigation, SiteStatistics, SiteManagement, GeneralInformation
+  },
+  data: () => {
+    return {
+      user: "",
+    }
+  },
+  async mounted() {
+    if (localStorage.pseudoUser) {
+      this.user = {
+        pseudo: localStorage.pseudoUser,
+        email: localStorage.emailUser,
+        password: localStorage.passwordUser
+      }
+    }
+  }
 }
 </script>
 
