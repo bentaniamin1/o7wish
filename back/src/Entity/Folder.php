@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\FolderRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: FolderRepository::class)]
+#[ApiResource]
 class Folder
 {
     #[ORM\Id]
@@ -23,7 +25,6 @@ class Folder
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'folders')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $idUser = null;
 
     public function getId(): ?int

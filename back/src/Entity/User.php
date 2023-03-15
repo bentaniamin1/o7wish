@@ -6,29 +6,39 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[ApiResource]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $pseudo = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    #[ORM\Column]
+    private array $roles = [];
 
-    #[ORM\OneToMany(mappedBy: 'idUser', targetEntity: Folder::class, orphanRemoval: true)]
-    private Collection $folders;
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
 
     #[ORM\OneToOne(mappedBy: 'idUser', cascade: ['persist', 'remove'])]
     private ?Database $idDatabase = null;
+
+    #[ORM\OneToMany(mappedBy: 'idUser', targetEntity: Folder::class)]
+    private Collection $folders;
+
+    #[ORM\Column(length: 255)]
+    private ?string $pseudo = null;
 
     public function __construct()
     {
@@ -38,18 +48,6 @@ class User
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -64,7 +62,39 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -72,6 +102,37 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getIdDatabase(): ?Database
+    {
+        return $this->idDatabase;
+    }
+
+    public function setIdDatabase(?Database $idDatabase): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($idDatabase === null && $this->idDatabase !== null) {
+            $this->idDatabase->setIdUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($idDatabase !== null && $idDatabase->getIdUser() !== $this) {
+            $idDatabase->setIdUser($this);
+        }
+
+        $this->idDatabase = $idDatabase;
 
         return $this;
     }
@@ -106,24 +167,14 @@ class User
         return $this;
     }
 
-    public function getIdDatabase(): ?Database
+    public function getPseudo(): ?string
     {
-        return $this->idDatabase;
+        return $this->pseudo;
     }
 
-    public function setIdDatabase(?Database $idDatabase): self
+    public function setPseudo(string $pseudo): self
     {
-        // unset the owning side of the relation if necessary
-        if ($idDatabase === null && $this->idDatabase !== null) {
-            $this->idDatabase->setIdUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($idDatabase !== null && $idDatabase->getIdUser() !== $this) {
-            $idDatabase->setIdUser($this);
-        }
-
-        $this->idDatabase = $idDatabase;
+        $this->pseudo = $pseudo;
 
         return $this;
     }

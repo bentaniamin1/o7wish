@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\DatabaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: DatabaseRepository::class)]
 #[ORM\Table(name: '`database`')]
+#[ApiResource]
 class Database
 {
     #[ORM\Id]
