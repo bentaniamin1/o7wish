@@ -34,7 +34,9 @@ export default {
 
   async mounted() {
     register()
-    .then((res) => (this.dataList = res))
+    .then((res) => (this.dataList = res[0].pseudo))
+
+
   }
 }
 

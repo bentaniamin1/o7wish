@@ -4,10 +4,10 @@ export default function useRegister() {
     return () => {
         return (
             axiosInstance ({
-                url : "/api/v2/pokemon/ditto",
+                url : "/api/users",
                 method : 'get',
             })
-                .then((res) => res.data)
+                .then((res) => res.data["hydra:member"])
                 .catch((error) => console.log(error))
         );
     };
