@@ -3,6 +3,7 @@
     <section class="webFtp_section">
         <header class="webFtp_header">
             <div class="webFtp_header_left">
+                <p>Web FTP</p>
                 <figure>
                     <img src="" alt="">
                 </figure>
@@ -11,39 +12,59 @@
         </header>
         
         <div class="explorer">
-            <FileExplorer/>
+            <FileList/>
         </div>
     </section>
 </template>
 
 <script>
-// import FileList from '@/components/FileList.vue';
 
-import FileExplorer from '@/components/FileExplorer/FileExplorer.vue';
+import FileList from '@/components/FileExplorer/FileList.vue';
 
 export default {
     name: "WebFtp",
-    components: { FileExplorer }
+    components: { FileList }
 };
 </script>
 
 <style scoped>
-.webFtp_header {
-  display: block;
-}
 
+* {
+    box-sizing: border-box;
+}
+.webFtp_section {
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+}
+.webFtp_header_left {
+  display: flex;
+  align-items: center;
+}
 .webFtp_header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+.explorer {
+    width: 100%;
+    height: 90%;
+    box-shadow: 0px 4px 4px 0px #00000040;
 }
 
 button {
-  border: none;
-  background: #B3145E;
-  font-family: 'Readex Pro', sans-serif;
-  font-weight: bolder;
-  font-size: 1.875rem;
-  color: white;
+    min-height: 50px;
+    min-width: 180px;
+    border: none;
+    background: #B3145E;
+    font-family: 'Readex Pro', sans-serif;
+    font-weight: bolder;
+    font-size: 1.4rem;
+    color: white;
+    box-shadow: 0px 4px 4px 0px #00000040;
+
 }
 
 

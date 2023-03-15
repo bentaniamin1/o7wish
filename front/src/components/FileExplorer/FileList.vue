@@ -1,59 +1,92 @@
 <template>
-    <div>
-      <h2>{{ currentPath }}</h2>
-      <ul>
-        <li v-for="file in files" :key="file.name">
-          <span>{{ file.name }}</span>
-          <span v-if="file.type === 'folder'" @click="handleFolderClick(file)">[open]</span>
-        </li>
-      </ul>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'FileList',
-    props: {
-      currentPath: {
-        type: String,
-        required: true,
-      },
-    },
+  <div>
+    <h2>{{ currentPath }}</h2>
+    <ul>
+      <li v-for="file in files" :key="file.name">
+        <div v-if="file.type === 'folder'" @click="handleFolderClick(file)">
+          <svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M25.843 9.61364L23.642 4.67094C22.9555 3.12946 21.4262 2.13636 19.7388 2.13636H6.40909C4.04933 2.13636 2.13636 4.04933 2.13636 6.40909V40.5909C2.13636 42.9507 4.04933 44.8636 6.40909 44.8636H40.5909C42.9507 44.8636 44.8636 42.9507 44.8636 40.5909V13.8864C44.8636 11.5266 42.9507 9.61364 40.5909 9.61364H25.843ZM0 6.40909C0 2.86945 2.86945 0 6.40909 0H19.7388C22.2699 0 24.5639 1.48965 25.5936 3.80187L27.2303 7.47727H40.5909C44.1306 7.47727 47 10.3467 47 13.8864V40.5909C47 44.1306 44.1306 47 40.5909 47H6.40909C2.86945 47 0 44.1306 0 40.5909V6.40909Z" fill="black"/>
+          </svg>
+        </div>
+        <div v-if="file.type === 'image'">
+          <svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M40.5909 2.13636H6.40909C4.04933 2.13636 2.13636 4.04933 2.13636 6.40909V39.7348L24.2083 17.663C27.1283 14.7429 31.8627 14.7429 34.7827 17.663L44.8636 27.7439V6.40909C44.8636 4.04933 42.9507 2.13636 40.5909 2.13636ZM6.40909 44.8636C4.6357 44.8636 3.11464 43.7832 2.46822 42.2448L2.55797 42.3345L25.7189 19.1736C27.8046 17.0878 31.1863 17.0878 33.2721 19.1736L44.8636 30.7652V40.5909C44.8636 42.9507 42.9507 44.8636 40.5909 44.8636H6.40909ZM6.40909 0C2.86945 0 0 2.86945 0 6.40909V40.5909C0 44.1306 2.86945 47 6.40909 47H40.5909C44.1306 47 47 44.1306 47 40.5909V6.40909C47 2.86945 44.1306 0 40.5909 0H6.40909ZM9.07955 11.75C9.07955 10.2751 10.2751 9.07955 11.75 9.07955C13.2249 9.07955 14.4205 10.2751 14.4205 11.75C14.4205 13.2249 13.2249 14.4205 11.75 14.4205C10.2751 14.4205 9.07955 13.2249 9.07955 11.75ZM11.75 6.94318C9.09527 6.94318 6.94318 9.09527 6.94318 11.75C6.94318 14.4047 9.09527 16.5568 11.75 16.5568C14.4047 16.5568 16.5568 14.4047 16.5568 11.75C16.5568 9.09527 14.4047 6.94318 11.75 6.94318Z" fill="black"/>
+          </svg>
+        </div>
+        <div v-if="file.type === 'file'">
+          <svg width="41" height="47" viewBox="0 0 41 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M25.2091 3.3752L31.3597 9.47454L37.3422 15.2057C38.1834 16.0116 38.6591 17.126 38.6591 18.291V40.5909C38.6591 42.9507 36.7462 44.8636 34.3864 44.8636H6.61368C4.25392 44.8636 2.34095 42.9507 2.34095 40.5909V6.40909C2.34095 4.04933 4.25392 2.13636 6.61368 2.13636H22.2005C23.3275 2.13636 24.4089 2.58163 25.2091 3.3752ZM26.7134 1.85826L32.8509 7.9446L38.8201 13.663C40.0819 14.8718 40.7955 16.5435 40.7955 18.291V40.5909C40.7955 44.1306 37.9261 47 34.3864 47H6.61368C3.07404 47 0.20459 44.1306 0.20459 40.5909V6.40909C0.20459 2.86945 3.07404 0 6.61368 0H22.2005C23.891 0 25.513 0.667901 26.7134 1.85826ZM7.68186 22.4318C7.09192 22.4318 6.61368 22.9101 6.61368 23.5C6.61368 24.0899 7.09192 24.5682 7.68186 24.5682L33.3182 24.5682C33.9082 24.5682 34.3864 24.0899 34.3864 23.5C34.3864 22.9101 33.9082 22.4318 33.3182 22.4318L7.68186 22.4318ZM6.61368 34.1818C6.61368 33.5919 7.09192 33.1136 7.68186 33.1136L33.3182 33.1136C33.9082 33.1136 34.3864 33.5919 34.3864 34.1818C34.3864 34.7718 33.9082 35.25 33.3182 35.25L7.68186 35.25C7.09192 35.25 6.61368 34.7718 6.61368 34.1818ZM7.68186 11.75C7.09192 11.75 6.61368 12.2282 6.61368 12.8182C6.61368 13.4081 7.09192 13.8864 7.68186 13.8864L19.4319 13.8864C20.0218 13.8864 20.5 13.4081 20.5 12.8182C20.5 12.2282 20.0218 11.75 19.4319 11.75L7.68186 11.75Z" fill="black"/>
+          </svg>
+        </div>
+        <span>{{ file.name }}</span>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+
+
+export default {
+    name: "FileList",
     data() {
-      return {
-        files: [
-        { 
-          name: 'folder1',
-          type: 'folder',
-          path: "/folder1",
-          children: [
-            {
-              name: "file2.txt",
-              type: "file",
-              path: "/folder1/file2.txt",
-            },
-          ],
-        },
-        { name: 'file1.txt', type: 'file' },
-        ],
-      };
+        return {
+            files: [
+                {
+                    name: "folder1",
+                    type: "folder",
+                    path: "/",
+                },
+                {
+                  name: "file2.txt",
+                  type: "file",
+                  path: "/folder1/",
+                },
+                { name: "file1.txt", type: "file", path: "/", },
+            ],
+            currentPath: '/',
+            currentFolderFiles: [],
+        };
     },
-    mounted() {
-      this.updateFiles();
-    },
+    // mounted() {
+    //     this.updateFiles();
+    // },
     watch: {
-      currentPath() {
-        this.updateFiles();
-      },
+        currentPath() {
+            this.updateFiles();
+        },
     },
     methods: {
-      updateFiles() {
-        this.files = this.$parent.getFiles(this.currentPath);
-      },
-      handleFolderClick(folder) {
-        this.$parent.handleFolderClick(folder);
-      },
+        updateFiles() {
+          this.files = this.getFiles(this.currentPath);
+          console.log(this.files)
+
+        },
+        handleFolderClick(folder) {
+          // Met à jour le chemin actuel avec le chemin du dossier sélectionné
+          this.currentPath = this.currentPath+folder.name+"/";
+          // Met à jour la liste de fichiers dans le dossier actuel
+          this.currentFolderFiles = this.getFiles(folder.path);
+        },
+        getFiles(path) {
+          return this.files.filter(file => file.path === path);
+        }
     },
-  };
-  </script>
-  
+};
+</script>
+
+<style scoped>
+ul {
+  display: flex;
+}
+
+li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+li + li {
+  margin-left: 10px;
+}
+</style>
