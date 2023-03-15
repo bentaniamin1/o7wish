@@ -1,0 +1,25 @@
+table {
+  font-size: 1.125rem;
+  gap: 40px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px 20px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.table_container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 80px;
+}
+.table {
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.5);
+  padding: 40px;
+}
