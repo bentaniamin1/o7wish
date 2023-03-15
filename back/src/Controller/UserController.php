@@ -86,4 +86,24 @@ class UserController extends AbstractController
 
         return new Response(json_encode($data_response));
     }
+
+        /**
+     * @Route("/createuser", methods={"POST"}, name="api_createuser")
+     */
+    public function createuser(Request $request)
+    {
+        $name_of_new_user = $request->request->get('name_of_new_user');
+        $password_of_new_user = $request->request->get('password_of_new_user');
+        $path_folder_user = $request->request->get('path_folder_user');
+
+       // sudo mysql -e "CREATE DATABASE "$current_user"_"$name_bdd";"
+
+        $sftp = new SFTP('40.124.179.186');
+        $sftp_login = $sftp->login('groupe4', 'hetic2023groupe4ZS!');
+
+        //$sftp->exec('cd /opt ; sudo ./createUser.sh '. $name_of_new_user . $password_of_new_user . $path_folder_user);
+        $sftp->exec('cd /opt ; sudo ./createUser.sh '.$name_of_new_user. ' ' .$password_of_new_user .' '. $path_folder_user .'' );
+
+        return new Response(json_encode('200'));
+    }
 }
