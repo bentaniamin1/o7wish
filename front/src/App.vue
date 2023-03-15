@@ -36,11 +36,16 @@ export default {
 @import "./assets/styles/home_style.scss";
 @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200&display=swap');
 
+body {
+  background: #F9F9F9;
+}
+
 main {
   overflow-x: hidden;
   font-family: 'Readex Pro', sans-serif;
   font-weight: bold;
   font-size: 1.125rem;
+
 }
 h1 {
   font-family: 'Readex Pro', sans-serif;
