@@ -1,6 +1,6 @@
 import axiosInstance from '../Axios';
 
-export default function getUsers() {
+export default function getUsersByEmail() {
     return () => {
         return (
             axiosInstance

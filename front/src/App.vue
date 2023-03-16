@@ -1,43 +1,30 @@
 <template>
-  <header>
+  <header class="header_dev">
     <nav>
       <router-link to="/">Home</router-link>
       |
       <router-link to="/authentification">Authentification</router-link>
-      |
-      <router-link to="/ftp">Ftp Form</router-link>
-      |
-      <router-link to="/sous-domaine">Sous-domain</router-link>
-      |
-      <router-link to="/webftp">Web FTP</router-link>
     </nav>
   </header>
-  {{dataList}}
   <main>
     <router-view/>
   </main>
 </template>
 
 <script>
-import getUsers from "@/axios/hooks/getUsers";
 
-const getAllUsers = getUsers()
+import router from "@/router";
 
 export default {
   name: "App",
   data: () => {
-    let dataList;
     return {
-      dataList,
     }
   },
-
-  async mounted() {
-    getAllUsers()
-    .then((res) => (this.dataList = res))
-    .then((res) =>  (console.log(res)))
-
-
+  mounted() {
+    if (!localStorage.pseudoUser){
+      router.push({ path: '/authentification' })
+    }
   }
 }
 
@@ -49,12 +36,19 @@ export default {
 @import "./assets/styles/table_style.scss";
 @import "./assets/styles/home_style.scss";
 @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200&display=swap');
+.header_dev {
+  position: fixed;
+}
+body {
+  background: #F9F9F9;
+}
 
 main {
   overflow-x: hidden;
   font-family: 'Readex Pro', sans-serif;
   font-weight: bold;
   font-size: 1.125rem;
+
 }
 h1 {
   font-family: 'Readex Pro', sans-serif;

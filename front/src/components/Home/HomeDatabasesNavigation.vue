@@ -5,6 +5,10 @@
       <DataBase />
       <h3>Gestion de la base de données</h3>
     </router-link>
+    <router-link  class="link_sub_box" to="/upload-site">
+      <DataBase />
+      <h3>Upload le site</h3>
+    </router-link>
   </div>
 </template>
 
