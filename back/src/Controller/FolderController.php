@@ -14,14 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FolderController extends AbstractController {
-    #[Route( '/folder', name: 'app_folder' )]
-    public function index()
-    : Response {
-        return $this->render( 'folder/index.html.twig', [
-            'controller_name' => 'FolderController',
-        ] );
-    }
-
     /**
      * @Route("/add_put_config_site", methods={"POST"}, name="api_addputconfigsite")
      */
@@ -52,7 +44,8 @@ class FolderController extends AbstractController {
 
         $sftp->exec( 'cd /opt ; sudo ./createConfigSite.sh ' . $domain . ' ' . $name_of_site . ' ' . $cache_enable . '' );
 
-
+        $sftp->disconnect();
+        $ssh->disconnect();
         return new Response( json_encode( "200 create Config site" ) );
     }
 
@@ -87,7 +80,8 @@ class FolderController extends AbstractController {
 
         $sftp_connect->sftp->exec( 'cd /opt ; sudo ./deploymentSites.sh ' . $enable_site . ' ' . $name_of_site . '' );
 
-
+        $sftp_connect->disconnectSftp();
+        $ssh->disconnect();
         return new Response( json_encode( "200 create Config site" ) );
     }
 
@@ -142,7 +136,8 @@ class FolderController extends AbstractController {
         return new Response( json_encode( "200 send zip , unzip" ) );
     }
 
-    public function getBackup()
+    #[Route('/backup', name:'app_backup')]
+    public function getBackup(): void
     {
         /** @var $user ?User */
         $user = $this->getUser();
@@ -155,9 +150,13 @@ class FolderController extends AbstractController {
         $sftp_connect = new SftpService( 'groupe4', 'hetic2023groupe4ZS!' );
         $sftp_connect->sftpConnect();
 
-        $sftp_connect->sftp->exec( 'mkdir /home/'. $user->getPseudo() . '/backup-' . $user->getProjectName() . '-`date +%D`' );
-        $sftp_connect->sftp->exec( 'cp -r /var/www/'. $user->getProjectName() . ' ~/backup-' . $user->getProjectName() . '-`date +%D`' );
+        $sftp_connect->sftp->exec( 'mkdir /home/'. $user->getPseudo() . '~/backup-' . $user->getProjectName() . '-`date +%D`' );
+        $sftp_connect->sftp->exec( 'cp -r /var/www/'. $user->getProjectName() . '~/backup-' . $user->getProjectName() . '-`date +%D`' );
         $sftp_connect->sftp->exec( 'mysqldump '. $db_name . ' > ~/backup-' . $user->getProjectName() . '-`date +%D`/' . $db_name . '_backup.sql' );
+        $sftp_connect->sftp->exec( 'zip -r ~/backup-' . $user->getProjectName() . '-`date +%D`.zip ~/backup-' . $user->getProjectName() . '-`date +%D`');
+        $sftp_connect->downloadFile('../../backups/backup-' . $user->getProjectName() . '-`date +%D`','~/backup-' . $user->getProjectName() . '-`date +%D`');
 
+        $sftp_connect->disconnectSftp();
+        $ssh->disconnect();
     }
 }

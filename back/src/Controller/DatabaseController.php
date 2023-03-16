@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use phpseclib\Net\SFTP;
 use phpseclib\Net\SSH2;
@@ -17,13 +18,14 @@ class DatabaseController extends AbstractController {
      */
     public function uploadBdd( Request $request , UserRepository $user_repository)
     : Response {
+        /** @var $user ?User */
+        $user = $this->getUser();
+        $name_bdd = $request->request->get('name_bdd');
         $file_bdd = $request->request->get( 'file_sql' );
-        $project_name = $user_repository->getProjectName();
+        $project_name = $user_repository->getProjectName($user->getId());
 
         $pseudo   = 'ip';
         $password = 'ip';
-
-        //$resp = $sftp->exec('ls -a');
 
         $ssh = new SSH2( '40.124.179.186' );
         $ssh->login( 'groupe4', 'hetic2023groupe4ZS!' );
@@ -40,23 +42,16 @@ class DatabaseController extends AbstractController {
         $directory_path = $sftp->pwd();
 
 
-        $this->createBdd( $file_bdd );
+        $sftp->exec( 'cd /opt ; sudo ./createDatabase.sh ' . $name_bdd . '' );
         // Transfer file
         $sftp->put( '/var/www/'. $project_name . '/data/here.sql', 'test.txt', SFTP::SOURCE_LOCAL_FILE );
 
-        $sftp->exec( 'cd /opt ; sudo ./uploadBddInMysql.sh ' . $new_local . ' ' . $bdd_remote . ' ' . $directory_path . '/data' );
+        $sftp->exec( 'cd /opt ; sudo ./uploadBddInMysql.sh ' . $file_bdd . ' ' . $name_bdd . ' ' . $directory_path . '/data' );
 
         $fileExists = $sftp->file_exists( 'file.sql' );
 
-        //dd($sftp->pwd());
-
-
+        $sftp->disconnect();
+        $ssh->disconnect();
         return new Response( json_encode( $fileExists ) );
-    }
-
-    public function createBdd( $nameBdd )
-    : void {
-        $sftp->exec( 'cd /opt ; sudo ./createDatabase.sh ' . $nameBdd . '' );
-
     }
 }

@@ -100,6 +100,7 @@ class UserController extends AbstractController {
 
         echo $ssh->exec( 'ls -la' );
 
+        $ssh->disconnect();
         return new Response( json_encode( [ 'Login Successful !' ] ) );
     }
 
@@ -151,6 +152,7 @@ class UserController extends AbstractController {
             }
         }
 
+        $sftp->disconnect();
         return new Response( json_encode( $data_response ) );
     }
 
@@ -180,6 +182,7 @@ class UserController extends AbstractController {
 
         $sftp->exec( 'cd /opt ; sudo ./createUser.sh ' . $name_of_new_user . ' ' . $password_of_new_user . ' ' . $project_name . '' );
 
+        $sftp->disconnect();
         return new Response( json_encode( '200' ) );
     }
 
