@@ -12,7 +12,6 @@ security:
         main:
             lazy: true
             provider: users_in_memory
-            custom_authenticator: App\Security\SecurityControllerAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
