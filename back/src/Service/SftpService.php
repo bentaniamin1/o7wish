@@ -40,7 +40,7 @@ class SftpService {
         return $this->sftp->rename( $remote_name_file, $new_remote_name_file );
     }
 
-    public function downloadFile( $local_file, $remote_file ) {
+    public function downloadFile( $remote_file, $local_file ) {
         return $this->sftp->get( $remote_file, $local_file );
     }
 
