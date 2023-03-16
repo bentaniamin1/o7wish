@@ -21,6 +21,7 @@ import SiteStatistics from "@/components/Home/SiteStatistics";
 import HomeDatabasesNavigation from "@/components/Home/HomeDatabasesNavigation";
 import HomeFilesNavigation from "@/components/Home/HomeFilesNavigation";
 import HomeDomainNameNavigation from "@/components/Home/HomeDomainNameNavigation";
+import router from "@/router";
 
 export default {
   name: "HomeView",
@@ -41,6 +42,10 @@ export default {
         password: localStorage.passwordUser
       }
     }
+    if (!localStorage.pseudoUser) {
+      await router.push({path: '/authentification'})
+    }
+    
   }
 }
 </script>

@@ -13,12 +13,19 @@
 
 <script>
 
+import router from "@/router";
+
 export default {
   name: "App",
   data: () => {
     return {
     }
   },
+  mounted() {
+    if (!localStorage.pseudoUser){
+      router.push({ path: '/authentification' })
+    }
+  }
 }
 
 </script>

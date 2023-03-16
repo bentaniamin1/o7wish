@@ -40,6 +40,7 @@ export default {
     drop(e) {
       this.active = false
       this.fill = e.dataTransfer.files[0]
+      console.log( e.dataTransfer.files[0])
     },
     dropButton(e) {
       this.active = false
