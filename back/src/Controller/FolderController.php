@@ -137,7 +137,7 @@ class FolderController extends AbstractController {
     }
 
     #[Route('/backup', name:'app_backup')]
-    public function getBackup(): void
+    public function getBackup(): Response
     {
         /** @var $user ?User */
         $user = $this->getUser();
@@ -150,13 +150,19 @@ class FolderController extends AbstractController {
         $sftp_connect = new SftpService( 'groupe4', 'hetic2023groupe4ZS!' );
         $sftp_connect->sftpConnect();
 
-        $sftp_connect->sftp->exec( 'mkdir /home/'. $user->getPseudo() . '~/backup-' . $user->getProjectName() . '-`date +%D`' );
-        $sftp_connect->sftp->exec( 'cp -r /var/www/'. $user->getProjectName() . '~/backup-' . $user->getProjectName() . '-`date +%D`' );
-        $sftp_connect->sftp->exec( 'mysqldump '. $db_name . ' > ~/backup-' . $user->getProjectName() . '-`date +%D`/' . $db_name . '_backup.sql' );
-        $sftp_connect->sftp->exec( 'zip -r ~/backup-' . $user->getProjectName() . '-`date +%D`.zip ~/backup-' . $user->getProjectName() . '-`date +%D`');
-        $sftp_connect->downloadFile('../../backups/backup-' . $user->getProjectName() . '-`date +%D`','~/backup-' . $user->getProjectName() . '-`date +%D`');
+//        $sftp_connect->sftp->exec( 'mkdir /home/'. $user->getPseudo() . '~/backup-' . $user->getProjectName() . '-`date +%D`' );
+//        $sftp_connect->sftp->exec( 'cp -r /var/www/'. $user->getProjectName() . '~/backup-' . $user->getProjectName() . '-`date +%D`' );
+//        $sftp_connect->sftp->exec( 'mysqldump '. $db_name . ' > ~/backup-' . $user->getProjectName() . '-`date +%D`/' . $db_name . '_backup.sql' );
+//        $sftp_connect->sftp->exec( 'zip -r ~/backup-' . $user->getProjectName() . '-`date +%D`.zip ~/backup-' . $user->getProjectName() . '-`date +%D`');
+//        $sftp_connect->downloadFile('../../backups/backup-' . $user->getProjectName() . '-`date +%D`','~/backup-' . $user->getProjectName() . '-`date +%D`');
 
+        try {
+            $sftp_connect->downloadFile('~/testt_backup.zip','../../backups/test/');
+        } catch (Exception $e) {
+            return new Response( json_encode($e->getMessage()));
+        }
         $sftp_connect->disconnectSftp();
         $ssh->disconnect();
+        return new Response( json_encode( "200 send zip , unzip" ) );
     }
 }
