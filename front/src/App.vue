@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="header_dev">
     <nav>
       <router-link to="/">Home</router-link>
       |
@@ -29,7 +29,9 @@ export default {
 @import "./assets/styles/table_style.scss";
 @import "./assets/styles/home_style.scss";
 @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200&display=swap');
-
+.header_dev {
+  position: fixed;
+}
 body {
   background: #F9F9F9;
 }
