@@ -1,7 +1,7 @@
 <template>
   <section class="home">
     <section class="HomeNavigation">
-      <h1>Espace Technique {{ this.user.pseudo }}</h1>
+      <h1>Espace Technique </h1>
       <HomeFilesNavigation/>
       <HomeDatabasesNavigation/>
       <HomeDomainNameNavigation/>

@@ -1,9 +1,9 @@
 <template>
   <div class="home_box">
-    <h1>Information général</h1>
+    <h1>Statistiques</h1>
     <div class="home_sub_box">
-      <h3>Utilisateur actuel</h3>
-      <p>User</p>
+      <h3>Utilisation de Mémoire Physique</h3>
+      <p>5.1 GB / 48 GB (10.63%)</p>
     </div>
   </div>
 </template>

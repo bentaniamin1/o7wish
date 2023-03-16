@@ -5,6 +5,7 @@ import WebFtpView from "@/views/WebFtpView";
 import FtpView from "@/views/FtpView";
 import SubDomainsView from "@/views/SubDomainsView";
 import DomainsView from "@/views/DomainsView";
+import UploadSiteView from "@/views/UploadSiteView";
 
 const routes = [
   {
@@ -26,6 +27,11 @@ const routes = [
     path: '/webftp',
     name: 'webftp',
     component: WebFtpView
+  },
+  {
+    path: '/upload-site',
+    name: 'upload-site',
+    component: UploadSiteView
   },
   {
     path: '/sous-domaine',
