@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Env\Response;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -39,6 +40,11 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    public function getProjectName(): string
+    {
+
+        return 'test';
+    }
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

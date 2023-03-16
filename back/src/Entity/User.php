@@ -34,6 +34,12 @@ class User
     #[ORM\OneToOne(mappedBy: 'idUser', cascade: ['persist', 'remove'])]
     private ?Database $idDatabase = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $projectName = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $domainName = null;
+
     public function __construct()
     {
         $this->folders = new ArrayCollection();
@@ -128,6 +134,30 @@ class User
         }
 
         $this->idDatabase = $idDatabase;
+
+        return $this;
+    }
+
+    public function getProjectName(): ?string
+    {
+        return $this->projectName;
+    }
+
+    public function setProjectName(string $projectName): self
+    {
+        $this->projectName = $projectName;
+
+        return $this;
+    }
+
+    public function getDomainName(): ?string
+    {
+        return $this->domainName;
+    }
+
+    public function setDomainName(string $domainName): self
+    {
+        $this->domainName = $domainName;
 
         return $this;
     }

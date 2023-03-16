@@ -2,90 +2,143 @@
 
 namespace App\Controller;
 
+use App\Service\SftpService;
+use App\Service\Ssh2Service;
 use phpseclib\Net\SFTP;
 use phpseclib\Net\SSH2;
+use PHPUnit\Util\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FolderController extends AbstractController
-{
-    #[Route('/folder', name: 'app_folder')]
-    public function index(): Response
-    {
-        return $this->render('folder/index.html.twig', [
+class FolderController extends AbstractController {
+    #[Route( '/folder', name: 'app_folder' )]
+    public function index()
+    : Response {
+        return $this->render( 'folder/index.html.twig', [
             'controller_name' => 'FolderController',
-        ]);
+        ] );
     }
 
     /**
      * @Route("/add_put_config_site", methods={"POST"}, name="api_addputconfigsite")
      */
-    public function addputconfigsite(Request $request)
-    {
-        $domain = $request->request->get('domain');
-        $name_of_site = $request->request->get('name_of_site');
+    public function addputconfigsite( Request $request ) {
+        $domain       = $request->request->get( 'domain' );
+        $name_of_site = $request->request->get( 'name_of_site' );
         //true or false
-        $cache_enable = $request->request->get('cache_enable');
+        $cache_enable = $request->request->get( 'cache_enable' );
 
-        $pseudo = 'ip';
+        $pseudo   = 'ip';
         $password = 'ip';
 
         //$resp = $sftp->exec('ls -a');
 
-        $ssh = new SSH2('40.124.179.186');
-        $ssh->login('groupe4', 'hetic2023groupe4ZS!');
+        $ssh = new SSH2( '40.124.179.186' );
+        $ssh->login( 'groupe4', 'hetic2023groupe4ZS!' );
 
 
         // Switch user
-        $ssh->setTimeout(10);
-        $ssh->write("su ip");
-        $ssh->read("Password:");
-        $ssh->write("ip");
+        $ssh->setTimeout( 10 );
+        $ssh->write( "su ip" );
+        $ssh->read( "Password:" );
+        $ssh->write( "ip" );
 
 
-        $sftp = new SFTP('40.124.179.186');
-        $sftp->login('ip', 'ip');
+        $sftp = new SFTP( '40.124.179.186' );
+        $sftp->login( 'ip', 'ip' );
 
-        $sftp->exec('cd /opt ; sudo ./createConfigSite.sh '.$domain. ' ' .$name_of_site .' '. $cache_enable .'' );
+        $sftp->exec( 'cd /opt ; sudo ./createConfigSite.sh ' . $domain . ' ' . $name_of_site . ' ' . $cache_enable . '' );
 
 
-        return new Response(json_encode("200 create Config site"));
+        return new Response( json_encode( "200 create Config site" ) );
     }
 
     /**
      * @Route("/enable_config_site", methods={"POST"}, name="api_enableconfigsite")
      */
-    public function enableConfigsite(Request $request)
-    {
+    public function enableConfigsite( Request $request ) {
         //true or false
-        $enable_site = $request->request->get('enable_site');
-        $name_of_site = $request->request->get('name_of_site');
+        $enable_site  = $request->request->get( 'enable_site' );
+        $name_of_site = $request->request->get( 'name_of_site' );
 
-        $pseudo = 'ip';
+        $pseudo   = 'ip';
         $password = 'ip';
 
         //$resp = $sftp->exec('ls -a');
 
-        $ssh = new SSH2('40.124.179.186');
-        $ssh->login('groupe4', 'hetic2023groupe4ZS!');
+        $ssh = new SSH2( '40.124.179.186' );
+        $ssh->login( 'groupe4', 'hetic2023groupe4ZS!' );
 
 
         // Switch user
-        $ssh->setTimeout(10);
-        $ssh->write("su ip");
-        $ssh->read("Password:");
-        $ssh->write("ip");
+        $ssh->setTimeout( 10 );
+        $ssh->write( "su ip" );
+        $ssh->read( "Password:" );
+        $ssh->write( "ip" );
+
+        $sftp_connect = new SftpService( 'ip', 'ip' );
+        $sftp_connect->sftpConnect();
+
+        /*        $sftp = new SFTP('40.124.179.186');
+                $sftp->login('ip', 'ip');*/
+
+        $sftp_connect->exec( 'cd /opt ; sudo ./deploymentSites.sh ' . $enable_site . ' ' . $name_of_site . '' );
 
 
-        $sftp = new SFTP('40.124.179.186');
-        $sftp->login('ip', 'ip');
+        return new Response( json_encode( "200 create Config site" ) );
+    }
 
-        $sftp->exec('cd /opt ; sudo ./deploymentSites.sh '.$enable_site. ' ' .$name_of_site.'' );
+    /**
+     * @Route("/sendFileOrfolder", methods={"POST"}, name="api_sendFileOrfolder")
+     */
+    public function sendFileOrFolder( Request $request ) {
+
+        return new Response( json_encode( "200 create Config site" ) );
+    }
+
+    /**
+     * @Route("/deleteFileOrfolder", methods={"POST"}, name="api_deleteFileOrfolder")
+     */
+    public function deleteFileOrFolder( Request $request ) {
+
+        return new Response( json_encode( "200 create Config site" ) );
+    }
 
 
-        return new Response(json_encode("200 create Config site"));
+    /**
+     * @Route("/uploadfileorfolder", methods={"POST"}, name="api_updateFileOrfolder")
+     */
+    public function uploadFileOrFolder( Request $request ) {
+
+        $ssh = new SSH2( '40.124.179.186' );
+        $ssh->login( 'groupe4', 'hetic2023groupe4ZS!' );
+
+        $file = $request->request->get( 'file' );
+
+        $sftp_connect = new SftpService( 'ip', 'ip' );
+        $sftp_connect->sftpConnect();
+        $directory_path = $sftp_connect->sftp->pwd();
+
+        $sftp_connect->uploadFile( $file , 'elementor.zip');
+
+        $sftp_connect->disconnectSftp();
+
+
+        $sftp_connect = new SftpService( 'groupe4', 'hetic2023groupe4ZS!' );
+        $sftp_connect->sftpConnect();
+
+        if ( $sftp_connect->sftpConnect() ) {
+            $sftp_connect->sftp->exec( 'sudo unzip -q ' . $directory_path . '/' . $file . ' -d  /var/www/' );
+            $sftp_connect->sftp->exec( 'sudo rm ' . $directory_path . '/' . $file );
+
+        }else {
+            throw new Exception( 'Not connected ' );
+        }
+
+        $sftp_connect->disconnectSftp();
+        return new Response( json_encode( "200 send zip , unzip" ) );
     }
 }
 
