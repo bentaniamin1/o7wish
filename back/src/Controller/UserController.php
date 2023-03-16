@@ -4,28 +4,92 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Security\JWTAuthenticator;
+use App\Service\CookieHelper;
+use App\Service\JWTHelper;
 use App\Service\SftpService;
 use App\Service\Ssh2Service;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use phpseclib\Net\SFTP;
 use phpseclib\Net\SSH2;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class UserController extends AbstractController {
 
-    public function loginUI() {
+    /**
+     * @throws Exception
+     */
+    #[Route('/login', name: 'app_login')]
+    public function login(CookieHelper $cookieHelper, JWTHelper $JWTHelper): JsonResponse
+    {
+        /** @var $user ?User */
+        $user = $this->getUser();
 
-    }
+        if (null === $user) {
+            return $this->json([
+                'message' => 'missing credentials',
+            ], Response::HTTP_UNAUTHORIZED);
+        }
 
-    public function registerUI() {
-
+        return $this->json(
+            [
+                'jwt' => $JWTHelper->createJWT($user)
+            ],
+            200,
+            ['set-cookie' => [$cookieHelper->buildCookie($user)]]
+        );
     }
 
     /**
-     * @Route("/usertest", methods={"GET"}, name="api_usertest")
+     * @throws Exception
+     */
+    #[Route('/register', name: 'app_register', methods: 'POST')]
+    public function register(Request                        $request,
+                             EntityManagerInterface         $entityManager,
+                             UserPasswordHasherInterface    $hasher,
+                             UserAuthenticatorInterface     $authenticator,
+                             JWTAuthenticator               $JWTAuthenticator,
+                             CookieHelper                   $cookieHelper,
+                             JWTHelper                      $JWTHelper): JsonResponse
+    {
+        if (!empty($request->request->get('password'))) {
+            $user = new User();
+            $user->setPseudo($request->request->get('pseudo'))
+                ->setPassword($hasher->hashPassword($user, $request->request->get('password')))
+                ->setEmail($request->request->get('email'));
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $authenticator->authenticateUser(
+                $user,
+                $JWTAuthenticator,
+                $request
+            );
+
+            return $this->json(
+                [
+                    'jwt' => $JWTHelper->createJWT($user)
+                ],
+                200,
+                ['set-cookie' => [$cookieHelper->buildCookie($user)]]
+            );
+        }
+        return $this->json([
+            'message' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !',
+            'status' => 422
+        ]);
+    }
+
+    /**
+     * @Route("/usertest", methods={"GET"}, name="app_usertest")
      */
     public function test( Request $request )
     : Response {
@@ -91,30 +155,30 @@ class UserController extends AbstractController {
     }
 
     /**
-     * @Route("/createuser", methods={"POST"}, name="api_createuser")
+     * @Route("/createuser", methods={"POST"}, name="app_createuser")
      */
-    public function createuser( Request $request, UserRepository $user_repository, User $user, EntityManagerInterface $entityManager ) {
+    public function createuser( Request $request, UserRepository $user_repository, EntityManagerInterface $entityManager ) {
+        /** @var $user ?User */
+        $user = $this->getUser();
+
         $name_of_new_user     = $request->request->get( 'name_of_new_user' );
         $password_of_new_user = $request->request->get( 'password_of_new_user' );
         $project_name     = $request->request->get( 'path_folder_user' );
 
         $user->setProjectName($project_name);
 
-        $entityManager->persist($user);
-        $entityManager->flush();
-
+        if( !$user->getProjectName() ) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }
 
         $current_id_user = $user->getId();
         $user_repository->getProjectName($current_id_user);
 
-        dd($user_repository);
-        // sudo mysql -e "CREATE DATABASE "$current_user"_"$name_bdd";"
-
         $sftp       = new SFTP( '40.124.179.186' );
         $sftp_login = $sftp->login( 'groupe4', 'hetic2023groupe4ZS!' );
 
-        //$sftp->exec('cd /opt ; sudo ./createUser.sh '. $name_of_new_user . $password_of_new_user . $path_folder_user);
-        $sftp->exec( 'cd /opt ; sudo ./createUser.sh ' . $name_of_new_user . ' ' . $password_of_new_user . ' ' . $path_folder_user . '' );
+        $sftp->exec( 'cd /opt ; sudo ./createUser.sh ' . $name_of_new_user . ' ' . $password_of_new_user . ' ' . $project_name . '' );
 
         return new Response( json_encode( '200' ) );
     }

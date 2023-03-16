@@ -32,7 +32,7 @@ class JWTAuthenticator extends AbstractAuthenticator implements AuthenticationEn
     public function authenticate(Request $request): Passport
     {
         return new Passport(
-            new UserBadge($request->request->get('username')),
+            new UserBadge($request->request->get('pseudo')),
             new PasswordCredentials($request->request->get('password'))
         );
     }

@@ -41,7 +41,7 @@ class JWTCheckerAuthenticator extends AbstractAuthenticator implements Authentic
             $jwt = JWT::decode($token, new Key($this->appSecret, 'HS256'));
 
             return new SelfValidatingPassport(
-                new UserBadge($jwt->username)
+                new UserBadge($jwt->pseudo)
             );
         } catch (\Exception $exception) {
             throw new CustomUserMessageAuthenticationException('JWT invalide');

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Service\SftpService;
 use App\Service\Ssh2Service;
 use phpseclib\Net\SFTP;
@@ -84,7 +85,7 @@ class FolderController extends AbstractController {
         /*        $sftp = new SFTP('40.124.179.186');
                 $sftp->login('ip', 'ip');*/
 
-        $sftp_connect->exec( 'cd /opt ; sudo ./deploymentSites.sh ' . $enable_site . ' ' . $name_of_site . '' );
+        $sftp_connect->sftp->exec( 'cd /opt ; sudo ./deploymentSites.sh ' . $enable_site . ' ' . $name_of_site . '' );
 
 
         return new Response( json_encode( "200 create Config site" ) );
@@ -140,5 +141,21 @@ class FolderController extends AbstractController {
         $sftp_connect->disconnectSftp();
         return new Response( json_encode( "200 send zip , unzip" ) );
     }
-}
 
+    public function getBackup()
+    {
+        /** @var $user ?User */
+        $user = $this->getUser();
+
+        $ssh = new SSH2( '40.124.179.186' );
+        $ssh->login( 'groupe4', 'hetic2023groupe4ZS!' );
+
+        $sftp_connect = new SftpService( 'groupe4', 'hetic2023groupe4ZS!' );
+        $sftp_connect->sftpConnect();
+
+        $sftp_connect->sftp->exec( 'mkdir /home/'. $user->getPseudo() . '/backup-' . $user->getProjectName() . '-`date +%D`' );
+        $sftp_connect->sftp->exec( 'cp -r /var/www/'. $user->getProjectName() . ' ~/backup-' . $user->getProjectName() . '-`date +%D`' );
+        $sftp_connect->sftp->exec( 'mysql -u root -p classicmodels_backup < d:\db\classicmodels.sql)' );
+
+    }
+}
