@@ -23,6 +23,7 @@
 <script>
 import useRegister from "@/axios/hooks/useRegister";
 import router from "@/router";
+
 const useNewRegister = useRegister()
 export default {
   name: "RegisterForm",

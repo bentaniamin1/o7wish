@@ -38,10 +38,15 @@
       <h3>Activer le cache</h3>
       <button>Reset le cache</button>
     </div>
+    <div class="home_sub_box">
+      <button @click="logout">ce déconnecté</button>
+    </div>
   </div>
 </template>
 
 <script>
+
+import router from "@/router";
 
 export default {
   name: "SiteManagement",
@@ -50,6 +55,12 @@ export default {
       isPutOnLine: false,
       isMinimizeImages: false,
       isActivateCache: true,
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.clear();
+      router.push({ path: '/authentification' })
     }
   }
 }
