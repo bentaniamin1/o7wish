@@ -10,40 +10,52 @@ use http\Env\Response;
 /**
  * @extends ServiceEntityRepository<User>
  *
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
+ * @method User|null find( $id, $lockMode = null, $lockVersion = null )
+ * @method User|null findOneBy( array $criteria, array $orderBy = null )
  * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method User[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
  */
-class UserRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, User::class);
+class UserRepository extends ServiceEntityRepository {
+    public function __construct( ManagerRegistry $registry ) {
+        parent::__construct( $registry, User::class );
     }
 
-    public function save(User $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
+    public function save( User $entity, bool $flush = false )
+    : void {
+        $this->getEntityManager()->persist( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
     }
 
-    public function remove(User $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
+    public function remove( User $entity, bool $flush = false )
+    : void {
+        $this->getEntityManager()->remove( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
     }
 
-    public function getProjectName(): string
-    {
+    public function getProjectName( $id_user )
+    : string {
+        return $this->createQueryBuilder( 'u' )
+                    ->select( 'u.project_name')
+                    ->andWhere( 'u.id = :val' )
+                    ->setParameter( 'val', $id_user )
+                    ->getQuery()
+                    ->getResult();
+    }
 
-        return 'test';
+    public function getDomainName( $id_user )
+    : string {
+        return $this->createQueryBuilder( 'u' )
+                    ->select( 'u.domain_name')
+                    ->andWhere( 'u.id = :val' )
+                    ->setParameter( 'val', $id_user )
+                    ->getQuery()
+                    ->getResult();
     }
 //    /**
 //     * @return User[] Returns an array of User objects

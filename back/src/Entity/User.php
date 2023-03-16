@@ -7,12 +7,13 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource()]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,11 +35,11 @@ class User
     #[ORM\OneToOne(mappedBy: 'idUser', cascade: ['persist', 'remove'])]
     private ?Database $idDatabase = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $projectName = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $projectName ;
 
-    #[ORM\Column(length: 255)]
-    private ?string $domainName = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $domainName ;
 
     public function __construct()
     {
@@ -160,5 +161,19 @@ class User
         $this->domainName = $domainName;
 
         return $this;
+    }
+
+    public function getRoles()
+    : array {
+        // TODO: Implement getRoles() method.
+    }
+
+    public function eraseCredentials() {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier()
+    : string {
+        // TODO: Implement getUserIdentifier() method.
     }
 }

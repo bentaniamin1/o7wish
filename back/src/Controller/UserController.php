@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Service\SftpService;
 use App\Service\Ssh2Service;
+use Doctrine\ORM\EntityManagerInterface;
 use phpseclib\Net\SFTP;
 use phpseclib\Net\SSH2;
 use Symfony\Component\HttpFoundation\Request;
@@ -90,11 +93,21 @@ class UserController extends AbstractController {
     /**
      * @Route("/createuser", methods={"POST"}, name="api_createuser")
      */
-    public function createuser( Request $request ) {
+    public function createuser( Request $request, UserRepository $user_repository, User $user, EntityManagerInterface $entityManager ) {
         $name_of_new_user     = $request->request->get( 'name_of_new_user' );
         $password_of_new_user = $request->request->get( 'password_of_new_user' );
-        $path_folder_user     = $request->request->get( 'path_folder_user' );
+        $project_name     = $request->request->get( 'path_folder_user' );
 
+        $user->setProjectName($project_name);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+
+        $current_id_user = $user->getId();
+        $user_repository->getProjectName($current_id_user);
+
+        dd($user_repository);
         // sudo mysql -e "CREATE DATABASE "$current_user"_"$name_bdd";"
 
         $sftp       = new SFTP( '40.124.179.186' );
