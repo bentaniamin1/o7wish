@@ -147,6 +147,8 @@ class FolderController extends AbstractController {
         /** @var $user ?User */
         $user = $this->getUser();
 
+        $db_name = "";
+
         $ssh = new SSH2( '40.124.179.186' );
         $ssh->login( 'groupe4', 'hetic2023groupe4ZS!' );
 
@@ -155,7 +157,7 @@ class FolderController extends AbstractController {
 
         $sftp_connect->sftp->exec( 'mkdir /home/'. $user->getPseudo() . '/backup-' . $user->getProjectName() . '-`date +%D`' );
         $sftp_connect->sftp->exec( 'cp -r /var/www/'. $user->getProjectName() . ' ~/backup-' . $user->getProjectName() . '-`date +%D`' );
-        $sftp_connect->sftp->exec( 'mysql -u root -p classicmodels_backup < d:\db\classicmodels.sql)' );
+        $sftp_connect->sftp->exec( 'mysqldump '. $db_name . ' > ~/backup-' . $user->getProjectName() . '-`date +%D`/' . $db_name . '_backup.sql' );
 
     }
 }
