@@ -14,23 +14,26 @@
       </label>
     </div>
     <div>
-      <p>Fichier : {{ fill.name }}</p>
+      <p>Fichier : {{ file.name }}</p>
     </div>
     <div>
-      <button>Envoyer</button>
+      <button @click="upload">Envoyer</button>
     </div>
   </section>
 </template>
 
 <script>
 import UploadFile from "@/assets/Picto/UploadFile";
+import useUploadSite from "@/axios/hooks/useUploadSite";
+
+const useNewUploadSite = useUploadSite()
 
 export default {
   name: "UploadSiteForm",
   components: {UploadFile},
   data: () => {
     return {
-      fill: '',
+      file: '',
       active: false,
     }
   }, methods: {
@@ -39,12 +42,18 @@ export default {
     },
     drop(e) {
       this.active = false
-      this.fill = e.dataTransfer.files[0]
+      this.file = e.dataTransfer.files[0]
       console.log( e.dataTransfer.files[0])
     },
     dropButton(e) {
       this.active = false
-      this.fill = e.target.files[0]
+      this.file = e.target.files[0]
+    },
+    upload() {
+      let formData = new FormData();
+      formData.append("file", this.file);
+      console.log(this.file)
+      useNewUploadSite(formData);
     }
   }
 }
@@ -72,14 +81,14 @@ section {
   box-shadow: inset 0 1px 10px -1px rgba(0, 0, 0, 1);
   background: #B3145E;
   color: white;
-  fill: white;
+  file: white;
 }
 
 .upload-container-activer {
   box-shadow: inset 0 1px 10px -1px rgba(0, 0, 0, 1);
   background: #B3145E;
   color: white;
-  fill: white;
+  file: white;
 }
 
 input[type='file'] {

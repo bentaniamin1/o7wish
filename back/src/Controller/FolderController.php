@@ -106,28 +106,32 @@ class FolderController extends AbstractController {
      * @Route("/uploadfileorfolder", methods={"POST"}, name="api_updateFileOrfolder")
      */
     public function uploadFileOrFolder( Request $request ) {
+        /** @var $user ?User */
+        $user = $this->getUser();
+
+        $vmUsername = $user->getVmUsername();
+        $vmPassword = $user->getVmPassword();
+        $projectName = $user->getProjectName();
 
         $ssh = new SSH2( '40.124.179.186' );
         $ssh->login( 'groupe4', 'hetic2023groupe4ZS!' );
 
-        $file = $request->request->get( 'file' );
+        $file = $request->files->get( 'file' );
+        $filename = $file->getClientOriginalName();
 
-        $sftp_connect = new SftpService( 'ip', 'ip' );
+        $sftp_connect = new SftpService( $vmUsername, $vmPassword );
         $sftp_connect->sftpConnect();
         $directory_path = $sftp_connect->sftp->pwd();
-
-        $sftp_connect->uploadFile( $file , $file );
+        $sftp_connect->uploadFile( $file , $filename );
 
         $sftp_connect->disconnectSftp();
-
 
         $sftp_connect = new SftpService( 'groupe4', 'hetic2023groupe4ZS!' );
         $sftp_connect->sftpConnect();
 
         if ( $sftp_connect->sftpConnect() ) {
-            $sftp_connect->sftp->exec( 'sudo unzip -q ' . $directory_path . '/' . $file . ' -d  /var/www/' );
-            $sftp_connect->sftp->exec( 'sudo rm ' . $directory_path . '/' . $file );
-
+            $sftp_connect->sftp->exec( 'sudo unzip -q ' . $directory_path . '/' . $filename . ' -d /var/www/' . $projectName );
+            $sftp_connect->sftp->exec( 'sudo rm -r ' . $directory_path . '/' . $filename );
         }else {
             throw new Exception( 'Not connected ' );
         }

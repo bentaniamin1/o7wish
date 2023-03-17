@@ -21,7 +21,7 @@ class SftpService {
     : Response {
 
         $this->sftp = new SFTP( '40.124.179.186' );
-        //$this->sftp->login( $this->pseudo, $this->password );
+        $this->sftp->login( $this->pseudo, $this->password );
 
 
         if ( $this->sftp->login( $this->pseudo, $this->password ) ) {
