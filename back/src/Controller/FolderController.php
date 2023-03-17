@@ -111,6 +111,7 @@ class FolderController extends AbstractController {
 
         $vmUsername = $user->getVmUsername();
         $vmPassword = $user->getVmPassword();
+        $projectName = $user->getProjectName();
 
         $ssh = new SSH2( '40.124.179.186' );
         $ssh->login( 'groupe4', 'hetic2023groupe4ZS!' );
@@ -121,19 +122,16 @@ class FolderController extends AbstractController {
         $sftp_connect = new SftpService( $vmUsername, $vmPassword );
         $sftp_connect->sftpConnect();
         $directory_path = $sftp_connect->sftp->pwd();
-
         $sftp_connect->uploadFile( $file , $filename );
 
         $sftp_connect->disconnectSftp();
-
 
         $sftp_connect = new SftpService( 'groupe4', 'hetic2023groupe4ZS!' );
         $sftp_connect->sftpConnect();
 
         if ( $sftp_connect->sftpConnect() ) {
-            $sftp_connect->sftp->exec( 'sudo unzip -q ' . $directory_path . '/' . $filename . ' -d  /var/www/' );
-            $sftp_connect->sftp->exec( 'sudo rm ' . $directory_path . '/' . $filename );
-
+            $sftp_connect->sftp->exec( 'sudo unzip -q ' . $directory_path . '/' . $filename . ' -d /var/www/' . $projectName );
+            $sftp_connect->sftp->exec( 'sudo rm -r ' . $directory_path . '/' . $filename );
         }else {
             throw new Exception( 'Not connected ' );
         }

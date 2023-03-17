@@ -13,7 +13,7 @@ export default function useCreateVmUser() {
                 data: new URLSearchParams({
                     username: data.username,
                     password: data.password,
-                    projectName: data.projectName
+                     projectName: data.projectName
                 })
             })
                 .then(res => (res.data))
