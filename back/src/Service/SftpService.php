@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use phpseclib\Net\SFTP;
+use phpseclib3\Net\SFTP;
 use PHPUnit\Util\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use function PHPUnit\Framework\throwException;

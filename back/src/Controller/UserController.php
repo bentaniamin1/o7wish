@@ -10,8 +10,8 @@ use App\Service\JWTHelper;
 use App\Service\SftpService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use phpseclib\Net\SFTP;
-use phpseclib\Net\SSH2;
+use phpseclib3\Net\SFTP;
+use phpseclib3\Net\SSH2;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -161,7 +161,6 @@ class UserController extends AbstractController {
     public function createuser( Request $request, UserRepository $user_repository, EntityManagerInterface $entityManager ) {
         /** @var $user ?User */
         $user = $this->getUser();
-        dd($user);
 
         $name_of_new_user     = $request->request->get( 'username' );
         $password_of_new_user = $request->request->get( 'password' );
@@ -171,10 +170,8 @@ class UserController extends AbstractController {
         $user->setVmUsername($name_of_new_user);
         $user->setVmPassword($password_of_new_user);
 
-        if( !$user->getProjectName() ) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-        }
+        $entityManager->persist($user);
+        $entityManager->flush();
 
         $current_id_user = $user->getId();
         $user_repository->getProjectName($current_id_user);
@@ -185,7 +182,7 @@ class UserController extends AbstractController {
         $sftp->exec( 'cd /opt ; sudo ./createUser.sh ' . $name_of_new_user . ' ' . $password_of_new_user . ' ' . $project_name );
 
         $sftp->disconnect();
-        return new Response( json_encode( '200' ) );
+        return new Response( json_encode( $user_repository->getProjectName($current_id_user)) );
     }
 
 

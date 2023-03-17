@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use phpseclib\Net\SFTP;
-use phpseclib\Net\SSH2;
+use phpseclib3\Net\SFTP;
+use phpseclib3\Net\SSH2;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

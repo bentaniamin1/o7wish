@@ -39,9 +39,9 @@ class UserRepository extends ServiceEntityRepository {
     }
 
     public function getProjectName( $id_user )
-    : string {
+    : array {
         return $this->createQueryBuilder( 'u' )
-                    ->select( 'u.project_name')
+                    ->select( 'u.projectName')
                     ->andWhere( 'u.id = :val' )
                     ->setParameter( 'val', $id_user )
                     ->getQuery()
@@ -49,7 +49,7 @@ class UserRepository extends ServiceEntityRepository {
     }
 
     public function getDomainName( $id_user )
-    : string {
+    : array {
         return $this->createQueryBuilder( 'u' )
                     ->select( 'u.domain_name')
                     ->andWhere( 'u.id = :val' )
