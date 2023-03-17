@@ -21,7 +21,9 @@ import SiteStatistics from "@/components/Home/SiteStatistics";
 import HomeDatabasesNavigation from "@/components/Home/HomeDatabasesNavigation";
 import HomeFilesNavigation from "@/components/Home/HomeFilesNavigation";
 import HomeDomainNameNavigation from "@/components/Home/HomeDomainNameNavigation";
+import {useCookies} from "vue3-cookies";
 import router from "@/router";
+
 
 export default {
   name: "HomeView",
@@ -33,19 +35,16 @@ export default {
     return {
       user: "",
     }
+  },setup() {
+    const { cookies } = useCookies();
+    return { cookies };
   },
-  async mounted() {
-    if (localStorage.pseudoUser) {
-      this.user = {
-        pseudo: localStorage.pseudoUser,
-        email: localStorage.emailUser,
-        password: localStorage.passwordUser
-      }
+
+  mounted() {
+    let my_cookie_value = this.cookies.get('o7wishJWT')
+    if (!my_cookie_value) {
+      router.push({ path: '/authentification' })
     }
-    if (!localStorage.pseudoUser) {
-      await router.push({path: '/authentification'})
-    }
-    
   }
 }
 </script>

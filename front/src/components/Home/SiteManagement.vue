@@ -39,7 +39,7 @@
       <button>Reset le cache</button>
     </div>
     <div class="home_sub_box">
-      <button @click="logout">ce déconnecté</button>
+      <button @click="logout">Se déconnecter</button>
     </div>
   </div>
 </template>
@@ -47,6 +47,7 @@
 <script>
 
 import router from "@/router";
+import {useCookies} from "vue3-cookies";
 
 export default {
   name: "SiteManagement",
@@ -56,10 +57,14 @@ export default {
       isMinimizeImages: false,
       isActivateCache: true,
     }
+  },setup() {
+    const { cookies } = useCookies();
+    return { cookies };
   },
   methods: {
     logout() {
       localStorage.clear();
+      this.cookies.remove('o7wishJWT')
       router.push({ path: '/authentification' })
     }
   }

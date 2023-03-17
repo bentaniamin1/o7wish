@@ -8,7 +8,6 @@ use App\Security\JWTAuthenticator;
 use App\Service\CookieHelper;
 use App\Service\JWTHelper;
 use App\Service\SftpService;
-use App\Service\Ssh2Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use phpseclib\Net\SFTP;
@@ -83,7 +82,7 @@ class UserController extends AbstractController {
             );
         }
         return $this->json([
-            'message' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !',
+            'message' => 'Register failed. Password missing.',
             'status' => 422
         ]);
     }
@@ -162,12 +161,15 @@ class UserController extends AbstractController {
     public function createuser( Request $request, UserRepository $user_repository, EntityManagerInterface $entityManager ) {
         /** @var $user ?User */
         $user = $this->getUser();
+        dd($user);
 
-        $name_of_new_user     = $request->request->get( 'name_of_new_user' );
-        $password_of_new_user = $request->request->get( 'password_of_new_user' );
-        $project_name     = $request->request->get( 'path_folder_user' );
+        $name_of_new_user     = $request->request->get( 'username' );
+        $password_of_new_user = $request->request->get( 'password' );
+        $project_name     = $request->request->get( 'projectName' );
 
         $user->setProjectName($project_name);
+        $user->setVmUsername($name_of_new_user);
+        $user->setVmPassword($password_of_new_user);
 
         if( !$user->getProjectName() ) {
             $entityManager->persist($user);
@@ -180,7 +182,7 @@ class UserController extends AbstractController {
         $sftp       = new SFTP( '40.124.179.186' );
         $sftp_login = $sftp->login( 'groupe4', 'hetic2023groupe4ZS!' );
 
-        $sftp->exec( 'cd /opt ; sudo ./createUser.sh ' . $name_of_new_user . ' ' . $password_of_new_user . ' ' . $project_name . '' );
+        $sftp->exec( 'cd /opt ; sudo ./createUser.sh ' . $name_of_new_user . ' ' . $password_of_new_user . ' ' . $project_name );
 
         $sftp->disconnect();
         return new Response( json_encode( '200' ) );

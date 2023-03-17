@@ -21,7 +21,7 @@ class CookieHelper
     public function buildCookie(User $user,): string
     {
         return Cookie::create(
-            "WhatsUpJWT",
+            "o7wishJWT",
             $this->JWTHelper->createJWT($user),
             new \DateTime("30 minutes"),
             '',
