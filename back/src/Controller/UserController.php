@@ -59,6 +59,7 @@ class UserController extends AbstractController {
                              CookieHelper                   $cookieHelper,
                              JWTHelper                      $JWTHelper): JsonResponse
     {
+        var_dump($request->request);
         if (!empty($request->request->get('password'))) {
             $user = new User();
             $user->setPseudo($request->request->get('pseudo'))
@@ -83,7 +84,8 @@ class UserController extends AbstractController {
             );
         }
         return $this->json([
-            'message' => 'Echec de l\'inscription, les mots de passes ne correspondent pas !',
+            'message' => 'Register failed. Password missing.',
+            'request' => $request->request,
             'status' => 422
         ]);
     }
