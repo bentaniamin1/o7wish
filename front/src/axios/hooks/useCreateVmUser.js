@@ -7,8 +7,8 @@ export default function useCreateVmUser() {
                 url: '/createuser',
                 method: 'post',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': `Bearer ${data.myJWT}`
+                    "Content-Type": 'application/x-www-form-urlencoded',
+                    "Authorization": `Bearer ${data.myJWT}`
                 },
                 data: new URLSearchParams({
                     username: data.username,
