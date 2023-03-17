@@ -116,7 +116,7 @@ class FolderController extends AbstractController {
         $sftp_connect->sftpConnect();
         $directory_path = $sftp_connect->sftp->pwd();
 
-        $sftp_connect->uploadFile( $file , 'elementor.zip');
+        $sftp_connect->uploadFile( $file , $file );
 
         $sftp_connect->disconnectSftp();
 
