@@ -44,6 +44,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $vmUsername = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $vmPassword = null;
+
     public function __construct()
     {
         $this->folders = new ArrayCollection();
@@ -196,5 +202,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getVmUsername(): ?string
+    {
+        return $this->vmUsername;
+    }
+
+    public function setVmUsername(?string $vmUsername): self
+    {
+        $this->vmUsername = $vmUsername;
+
+        return $this;
+    }
+
+    public function getVmPassword(): ?string
+    {
+        return $this->vmPassword;
+    }
+
+    public function setVmPassword(?string $vmPassword): self
+    {
+        $this->vmPassword = $vmPassword;
+
+        return $this;
     }
 }

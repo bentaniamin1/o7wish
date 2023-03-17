@@ -38,10 +38,16 @@
       <h3>Activer le cache</h3>
       <button>Reset le cache</button>
     </div>
+    <div class="home_sub_box">
+      <button @click="logout">Se déconnecter</button>
+    </div>
   </div>
 </template>
 
 <script>
+
+import router from "@/router";
+import {useCookies} from "vue3-cookies";
 
 export default {
   name: "SiteManagement",
@@ -50,6 +56,16 @@ export default {
       isPutOnLine: false,
       isMinimizeImages: false,
       isActivateCache: true,
+    }
+  },setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+  },
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.cookies.remove('o7wishJWT')
+      router.push({ path: '/authentification' })
     }
   }
 }

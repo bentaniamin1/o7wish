@@ -1,18 +1,19 @@
 import axiosInstance from '../Axios';
 
-export default function useRegister() {
+export default function useCreateVmUser() {
     return (data) => {
         return (
             axiosInstance({
-                url: '/register',
+                url: '/createuser',
                 method: 'post',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': `Bearer ${data.myJWT}`
                 },
                 data: new URLSearchParams({
-                    pseudo: data.pseudo,
+                    username: data.username,
                     password: data.password,
-                    email: data.email
+                    projectName: data.projectName
                 })
             })
                 .then(res => (res.data))

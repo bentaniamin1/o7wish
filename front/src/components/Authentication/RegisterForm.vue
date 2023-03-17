@@ -21,8 +21,9 @@
 </template>
 
 <script>
-import useRegister from "@/axios/hooks/useRegister";
 import router from "@/router";
+import useRegister from "@/axios/hooks/useRegister";
+
 const useNewRegister = useRegister()
 export default {
   name: "RegisterForm",
@@ -40,11 +41,9 @@ export default {
       this.success = false;
       this.error = false;
       try {
-        console.log(auth)
         useNewRegister(auth);
-        localStorage.pseudoUser = this.pseudo;
-        localStorage.emailUser = this.email;
-        localStorage.passwordUser = this.password;
+        // localStorage.pseudoUser = this.pseudo;
+        // localStorage.emailUser = this.email;
         this.success = true;
         router.push({ path: '/' })
       } catch (err) {
