@@ -58,7 +58,6 @@ class UserController extends AbstractController {
                              CookieHelper                   $cookieHelper,
                              JWTHelper                      $JWTHelper): JsonResponse
     {
-        var_dump($request->request);
         if (!empty($request->request->get('password'))) {
             $user = new User();
             $user->setPseudo($request->request->get('pseudo'))
